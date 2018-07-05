@@ -29,6 +29,9 @@ public class Car {
     private Set<Sale> sales;
 
     @ManyToMany
-    @JoinTable(inverseJoinColumns = {@JoinColumn(name = "part_id")})
+    @JoinTable(
+            name = "parts_cars",
+            joinColumns = {@JoinColumn(name = "part_id")},
+            inverseJoinColumns = {@JoinColumn(name = "car_id")})
     private Set<Part> parts = new HashSet<>();
 }

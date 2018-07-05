@@ -3,6 +3,8 @@ package org.softuni.cardealer.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -22,4 +24,7 @@ public class Part {
     @ManyToOne
     @JoinColumn(name = "supplier_id", nullable = false)
     private Supplier supplier;
+
+    @ManyToMany(mappedBy = "parts")
+    private Set<Car> cars = new HashSet<>();
 }
