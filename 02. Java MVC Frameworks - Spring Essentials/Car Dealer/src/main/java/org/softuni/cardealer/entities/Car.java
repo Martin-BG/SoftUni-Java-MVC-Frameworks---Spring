@@ -26,7 +26,7 @@ public class Car {
             fetch = FetchType.LAZY,
             cascade = CascadeType.REMOVE
     )
-    private Set<Sale> sales;
+    private Set<Sale> sales = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
