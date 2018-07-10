@@ -1,0 +1,21 @@
+<th:block th:fragment="navigation-bar">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" th:href="@{/}">Resident Evil</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/}">Home</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Viruses
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/viruses}">Show</a></li>
+                        <li><a th:href="@{/viruses/add}">Add</a></li>
+                    </ul>
+                </li>
+                <li><a th:href="@{/map}">Map</a></li>
+            </ul>
+        </div>
+    </nav>
+</th:block>
