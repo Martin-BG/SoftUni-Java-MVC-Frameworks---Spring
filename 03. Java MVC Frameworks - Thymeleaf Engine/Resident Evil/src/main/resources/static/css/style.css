@@ -1,3 +1,7 @@
+body > nav {
+    border-radius: unset;
+}
+
 .navbar-default {
     background-color: #940b45;
     border-color: #940b45;
