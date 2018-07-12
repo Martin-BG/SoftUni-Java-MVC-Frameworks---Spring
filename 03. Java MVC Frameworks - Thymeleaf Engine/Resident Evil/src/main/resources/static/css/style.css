@@ -1,7 +1,3 @@
-body > nav {
-    border-radius: unset;
-}
-
 .navbar-default {
     background-color: #940b45;
     border-color: #940b45;
@@ -85,4 +81,12 @@ body > nav {
         color: #ffbbbc;
         background-color: #940b45;
     }
+}
+
+.navbar {
+    border-radius: unset;
+}
+
+.navbar-default .navbar-brand {
+    color: white;
 }
