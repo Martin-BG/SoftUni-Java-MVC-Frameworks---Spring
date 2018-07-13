@@ -1,5 +1,8 @@
 package com.softuni.residentevil.controllers;
 
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.ModelAndView;
 
 public abstract class BaseController {
@@ -37,5 +40,10 @@ public abstract class BaseController {
         modelAndView.setViewName("redirect:" + redirectUrl);
 
         return modelAndView;
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(false)); //Trim form input strings
     }
 }
