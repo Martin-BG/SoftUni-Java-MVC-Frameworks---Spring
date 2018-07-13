@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/map")
-public class MapController extends BaseController {
+public final class MapController extends BaseController {
 
     @Autowired
     public MapController(final MessageWrapper messageWrapper) {

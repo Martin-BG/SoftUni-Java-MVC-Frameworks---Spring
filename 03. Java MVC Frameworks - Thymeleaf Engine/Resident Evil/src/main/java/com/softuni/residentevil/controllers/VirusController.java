@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/viruses")
-public class VirusController extends BaseController {
+public final class VirusController extends BaseController {
 
     private final VirusService virusService;
 
@@ -39,8 +39,8 @@ public class VirusController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ModelAndView addPost(@Valid @ModelAttribute("viewModel") VirusAddBindingModel virusAddBindingModel,
-                                BindingResult bindingResult) {
+    public ModelAndView addPost(@Valid @ModelAttribute("viewModel") final VirusAddBindingModel virusAddBindingModel,
+                                final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return super.view("/viruses/add", virusAddBindingModel);
         }
