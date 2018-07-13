@@ -22,7 +22,7 @@ public class VirusServiceImpl extends BaseService implements VirusService {
     }
 
     @Override
-    public <T> boolean create(final T dto) {
+    public boolean create(final Object dto) {
         return super.validateAndCreate(dto, Virus.class, this.virusRepository);
     }
 }

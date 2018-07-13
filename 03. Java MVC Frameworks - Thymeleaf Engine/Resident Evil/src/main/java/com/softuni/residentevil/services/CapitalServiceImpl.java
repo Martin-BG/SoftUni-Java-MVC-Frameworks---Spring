@@ -1,5 +1,6 @@
 package com.softuni.residentevil.services;
 
+import com.softuni.residentevil.etities.Capital;
 import com.softuni.residentevil.repositories.CapitalRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class CapitalServiceImpl extends BaseService implements CapitalService {
 
 
     @Override
-    public <T> boolean create(final T dto) {
-        return false; // TODO - implement
+    public boolean create(final Object dto) {
+        return super.validateAndCreate(dto, Capital.class, this.capitalRepository);
     }
 }

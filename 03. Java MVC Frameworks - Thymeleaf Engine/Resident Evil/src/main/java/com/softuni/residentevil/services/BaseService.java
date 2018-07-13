@@ -20,26 +20,26 @@ abstract class BaseService {
         this.modelMapper = modelMapper;
     }
 
-    protected <T> boolean isValid(T t) {
+    protected final boolean isValid(final Object t) {
         return t != null && this.validator.validate(t).isEmpty();
     }
 
-    protected <T> Set<ConstraintViolation<T>> validate(T t) {
+    protected final <T> Set<ConstraintViolation<T>> validate(final T t) {
         return this.validator.validate(t);
     }
 
-    protected <T> T map(Object source, Class<T> clazz) {
+    protected final <T> T map(final Object source, final Class<T> clazz) {
         return this.modelMapper.map(source, clazz);
     }
 
-    protected <T, D> boolean validateAndCreate(final T dto,
-                                               Class<D> entityClass,
-                                               JpaRepository repository) {
+    protected final <T> boolean validateAndCreate(final Object dto,
+                                                  final Class<T> entityClass,
+                                                  final JpaRepository repository) {
         if (!this.isValid(dto)) {
             return false; // TODO - proper error handling
         }
 
-        final D entity = this.map(dto, entityClass);
+        final T entity = this.map(dto, entityClass);
 
         try {
             repository.saveAndFlush(entity);
