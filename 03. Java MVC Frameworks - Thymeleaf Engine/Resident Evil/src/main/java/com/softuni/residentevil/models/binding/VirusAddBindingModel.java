@@ -1,0 +1,81 @@
+package com.softuni.residentevil.models.binding;
+
+import com.softuni.residentevil.etities.enums.Magnitude;
+import com.softuni.residentevil.etities.enums.Mutaion;
+import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
+public class VirusAddBindingModel {
+
+    private static final String VIRUS_NAME_LENGTH = "{virus.name.length}";
+    private static final String VIRUS_DESCRIPTION_LENGTH = "{virus.description.length}";
+    private static final String VIRUS_SIDE_EFFECTS_LENGTH = "{virus.side-effects.length}";
+    private static final String VIRUS_CREATOR_TEXT = "{virus.creator.text}";
+    private static final String VIRUS_DEADLY_NULL = "{virus.deadly.null}";
+    private static final String VIRUS_CURABLE_NULL = "{virus.curable.null}";
+    private static final String VIRUS_MUTATION_NULL = "{virus.mutation.null}";
+    private static final String VIRUS_TURNOVER_RATE_RANGE = "{virus.turnover-rate.range}";
+    private static final String VIRUS_HOURS_UNTIL_MUTATION_RANGE = "{virus.hours-until-mutation.range}";
+    private static final String VIRUS_MAGNITUDE_NULL = "{virus.magnitude.null}";
+    private static final String VIRUS_RELEASED_ON_DATE_INVALID = "{virus.released-on-date.invalid}";
+
+    // Name – Cannot be empty, should be between 3 and 10 symbols.
+    @Length(min = 3, max = 10, message = VIRUS_NAME_LENGTH)
+    private String name;
+
+    // Description – Cannot be empty, should be between 5 and 100 symbols. Represented as Text in the database
+    @Length(min = 5, max = 100, message = VIRUS_DESCRIPTION_LENGTH)
+    private String description;
+
+    // Side Effects – Should have a maximum of 50 symbols.
+    @Length(max = 50, message = VIRUS_SIDE_EFFECTS_LENGTH)
+    private String sideEffects;
+
+    // Creator – Should be either Corp or corp.
+    @Pattern(regexp = "^Corp$|^corp\\.$", message = VIRUS_CREATOR_TEXT)
+    private String creator;
+
+    // Is Deadly – Boolean
+    @NotNull(message = VIRUS_DEADLY_NULL)
+    private Boolean isDeadly;
+
+    // Is Curable – Boolean
+    @NotNull(message = VIRUS_CURABLE_NULL)
+    private Boolean isCurable;
+
+    // Mutation – Cannot be null. Should hold one of the following values:
+    // ZOMBIE, T_078_TYRANT, GIANT_SPIDER
+    @NotNull(message = VIRUS_MUTATION_NULL)
+    private Mutaion mutation;
+
+    // Turnover Rate – Number, between 0 and 100.
+    @Range(min = 0, max = 100, message = VIRUS_TURNOVER_RATE_RANGE)
+    private Integer turnoverRate;
+
+    // THours Until Turn (to a mutation) – Number, between 1 and 12.
+    @Range(min = 1, max = 12, message = VIRUS_HOURS_UNTIL_MUTATION_RANGE)
+    private Integer hoursUntilMutation;
+
+    // Magnitude – Cannot be null. Should hold one of the following values:
+    // Low, Medium, High
+    @NotNull(message = VIRUS_MAGNITUDE_NULL)
+    private Magnitude magnitude;
+
+    // Released On – Date, should be before the “today” date.
+    @Past(message = VIRUS_RELEASED_ON_DATE_INVALID)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate releasedOn;
+
+    // Capitals – A collection of Capitals.
+    private List<String> capitals = new ArrayList<>();
+}
