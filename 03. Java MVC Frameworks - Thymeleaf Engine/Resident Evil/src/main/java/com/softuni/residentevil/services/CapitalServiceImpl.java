@@ -5,19 +5,24 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import javax.validation.Validator;
 
 @Service
-@Transactional
-public class CapitalServiceImpl implements CapitalService {
+public class CapitalServiceImpl extends BaseService implements CapitalService {
 
     private final CapitalRepository capitalRepository;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public CapitalServiceImpl(final CapitalRepository capitalRepository,
-                              final ModelMapper modelMapper) {
+    public CapitalServiceImpl(final Validator validator,
+                              final ModelMapper modelMapper,
+                              final CapitalRepository capitalRepository) {
+        super(validator, modelMapper);
         this.capitalRepository = capitalRepository;
-        this.modelMapper = modelMapper;
+    }
+
+
+    @Override
+    public <T> boolean create(final T dto) {
+        return false; // TODO - implement
     }
 }
