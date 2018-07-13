@@ -3,14 +3,17 @@ package com.softuni.residentevil.etities;
 import com.softuni.residentevil.etities.enums.Magnitude;
 import com.softuni.residentevil.etities.enums.Mutaion;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
+@EqualsAndHashCode(of = {"id"})
 @Entity
 @Table(name = "viruses")
 public class Virus {
@@ -79,4 +82,23 @@ public class Virus {
             joinColumns = {@JoinColumn(name = "virus_id")},
             inverseJoinColumns = {@JoinColumn(name = "capital_id")})
     private Set<Capital> capitals = new HashSet<>();
+
+    @Override
+    public String toString() {
+        return "Virus{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", sideEffects='" + sideEffects + '\'' +
+                ", creator='" + creator + '\'' +
+                ", isDeadly=" + isDeadly +
+                ", isCurable=" + isCurable +
+                ", mutation=" + mutation +
+                ", turnoverRate=" + turnoverRate +
+                ", hoursUntilMutation=" + hoursUntilMutation +
+                ", magnitude=" + magnitude +
+                ", releasedOn=" + releasedOn +
+                ", capitals=" + capitals.stream().map(Capital::getName).collect(Collectors.joining(", ")) +
+                '}';
+    }
 }
