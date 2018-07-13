@@ -1,5 +1,5 @@
 package com.softuni.residentevil.services;
 
-public interface VirusService {
+public interface VirusService extends Creatable {
 
 }

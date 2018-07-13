@@ -1,5 +1,5 @@
 package com.softuni.residentevil.services;
 
-public interface CapitalService {
+public interface CapitalService extends Creatable {
 
 }
