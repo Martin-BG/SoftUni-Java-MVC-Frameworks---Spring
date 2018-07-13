@@ -3,7 +3,7 @@ package com.softuni.residentevil.etities.enums;
 public enum Magnitude {
     LOW, MEDIUM, HIGH;
 
-    public static Magnitude fromNormalizedName(String normalizedName) {
+    public static Magnitude fromNormalizedName(final String normalizedName) {
         return valueOf(normalizedName.toUpperCase());
     }
 
