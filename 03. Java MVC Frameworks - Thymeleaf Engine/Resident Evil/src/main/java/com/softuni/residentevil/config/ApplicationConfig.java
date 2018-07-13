@@ -12,6 +12,8 @@ import javax.validation.Validator;
 @Configuration
 public class ApplicationConfig {
 
+    private static final String LANGUAGES_VALIDATION_MESSAGES = "languages/validation";
+
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
@@ -23,7 +25,7 @@ public class ApplicationConfig {
                 .configure()
                 .messageInterpolator(
                         new ResourceBundleMessageInterpolator(
-                                new PlatformResourceBundleLocator("languages/validation")
+                                new PlatformResourceBundleLocator(LANGUAGES_VALIDATION_MESSAGES)
                         )
                 )
                 .buildValidatorFactory()
