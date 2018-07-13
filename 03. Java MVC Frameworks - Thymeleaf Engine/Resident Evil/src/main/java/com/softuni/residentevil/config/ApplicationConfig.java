@@ -1,8 +1,10 @@
 package com.softuni.residentevil.config;
 
+import com.softuni.residentevil.utils.MessageWrapper;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.hibernate.validator.resourceloading.PlatformResourceBundleLocator;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,5 +32,10 @@ public class ApplicationConfig {
                 )
                 .buildValidatorFactory()
                 .getValidator();
+    }
+
+    @Bean
+    public MessageWrapper messageWrapper(final MessageSource messageSource) {
+        return new MessageWrapper(messageSource);
     }
 }
