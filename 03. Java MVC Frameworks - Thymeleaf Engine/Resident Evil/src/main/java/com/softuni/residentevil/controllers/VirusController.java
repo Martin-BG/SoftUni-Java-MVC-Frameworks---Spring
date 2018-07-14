@@ -2,20 +2,19 @@ package com.softuni.residentevil.controllers;
 
 import com.softuni.residentevil.etities.enums.Magnitude;
 import com.softuni.residentevil.etities.enums.Mutation;
-import com.softuni.residentevil.models.binding.VirusAddBindingModel;
+import com.softuni.residentevil.models.binding.VirusAddEditBindingModel;
+import com.softuni.residentevil.models.view.VirusIdNameMagnitudeAndDateViewModel;
 import com.softuni.residentevil.services.CapitalService;
 import com.softuni.residentevil.services.VirusService;
 import com.softuni.residentevil.utils.MessageWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -38,45 +37,93 @@ public final class VirusController extends BaseController {
 
     @GetMapping(value = {"", "/"})
     public ModelAndView rootGet() {
-        return super.view("/viruses/all");
+        final List<VirusIdNameMagnitudeAndDateViewModel> simpleView =
+                this.virusService.getSimpleView();
+        return super.view("/viruses/all", simpleView);
     }
 
     @GetMapping("/add")
     public ModelAndView addGet() {
-        final VirusAddBindingModel virusDto = this.loadDataToViewModel(new VirusAddBindingModel());
+        final VirusAddEditBindingModel virusDto = this.loadDataToViewModel(new VirusAddEditBindingModel());
         return super.view("/viruses/add", virusDto);
     }
 
     @PostMapping("/add")
-    public ModelAndView addPost(@Valid @ModelAttribute("viewModel") final VirusAddBindingModel virusAddBindingModel,
+    public ModelAndView addPost(@Valid @ModelAttribute("viewModel") final VirusAddEditBindingModel virusAddEditBindingModel,
                                 final BindingResult bindingResult) {
 
-        this.loadDataToViewModel(virusAddBindingModel);
+        this.loadDataToViewModel(virusAddEditBindingModel);
         if (bindingResult.hasErrors()) {
-            return super.view("/viruses/add", virusAddBindingModel);
+            return super.view("/viruses/add", virusAddEditBindingModel);
         }
 
-        if (!this.virusService.create(virusAddBindingModel)) {
+        if (!this.virusService.create(virusAddEditBindingModel)) {
             // TODO - proper error handling
-            return super.view("/viruses/add", virusAddBindingModel);
+            return super.view("/viruses/add", virusAddEditBindingModel);
         }
 
         return super.redirect("/viruses");
     }
 
-    private VirusAddBindingModel loadDataToViewModel(final VirusAddBindingModel virusAddBindingModel) {
-        virusAddBindingModel.setAllCapitals(this.capitalsService.getSimpleView());
+    @GetMapping("/edit/{virusId}")
+    public ModelAndView editGet(@PathVariable String virusId) {
+        final VirusAddEditBindingModel virusAddEditBindingModel =
+                this.loadDataToViewModel(this.virusService.getById(virusId), virusId);
 
-        virusAddBindingModel.setAllMutations(
+        if (virusAddEditBindingModel == null) {
+            return super.redirect("/viruses");
+        }
+
+        return super.view("/viruses/edit", virusAddEditBindingModel);
+    }
+
+    @PostMapping("/edit/{virusId}")
+    public ModelAndView editPost(@PathVariable String virusId,
+                                 @Valid @ModelAttribute("viewModel") final VirusAddEditBindingModel virusAddEditBindingModel,
+                                 final BindingResult bindingResult) {
+        if (virusAddEditBindingModel == null) {
+            return super.redirect("/viruses");
+        }
+
+        this.loadDataToViewModel(virusAddEditBindingModel, virusId);
+
+        if (bindingResult.hasErrors() || !this.virusService.update(virusAddEditBindingModel)) {
+            return super.view("/viruses/edit", virusAddEditBindingModel);
+        }
+
+        return super.redirect("/viruses");
+    }
+
+    @GetMapping("/delete/{virusId}")
+    public ModelAndView deleteGet(@PathVariable String virusId) {
+        this.virusService.removeById(virusId);
+        return super.redirect("/viruses");
+    }
+
+    private VirusAddEditBindingModel loadDataToViewModel(final VirusAddEditBindingModel virusAddEditBindingModel) {
+        return this.loadDataToViewModel(virusAddEditBindingModel, null);
+    }
+
+    private VirusAddEditBindingModel loadDataToViewModel(final VirusAddEditBindingModel virusAddEditBindingModel,
+                                                         final String virusId) {
+        if (virusAddEditBindingModel == null) {
+            return null;
+        }
+
+        virusAddEditBindingModel.setAllCapitals(this.capitalsService.getSimpleView());
+
+        virusAddEditBindingModel.setAllMutations(
                 Stream.of(Mutation.values())
                         .map(Enum::name)
                         .collect(Collectors.toUnmodifiableList()));
 
-        virusAddBindingModel.setAllMagnitudes(
+        virusAddEditBindingModel.setAllMagnitudes(
                 Stream.of(Magnitude.values())
                         .map(Magnitude::getNormalizedName)
                         .collect(Collectors.toUnmodifiableList()));
 
-        return virusAddBindingModel;
+        virusAddEditBindingModel.setStoredId(virusId);
+
+        return virusAddEditBindingModel;
     }
 }
