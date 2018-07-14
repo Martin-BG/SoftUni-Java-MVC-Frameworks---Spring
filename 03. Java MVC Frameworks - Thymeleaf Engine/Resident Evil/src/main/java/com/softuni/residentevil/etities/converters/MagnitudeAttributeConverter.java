@@ -6,7 +6,7 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter(autoApply = true)
-public class MagnitudeAttributeConverter implements AttributeConverter<Magnitude, String> {
+public final class MagnitudeAttributeConverter implements AttributeConverter<Magnitude, String> {
 
     @Override
     public String convertToDatabaseColumn(final Magnitude magnitude) {

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(of = {"id"})
 @Entity
 @Table(name = "viruses")
-public class Virus {
+public final class Virus {
 
     @Id
     @GeneratedValue(generator = "UUID")

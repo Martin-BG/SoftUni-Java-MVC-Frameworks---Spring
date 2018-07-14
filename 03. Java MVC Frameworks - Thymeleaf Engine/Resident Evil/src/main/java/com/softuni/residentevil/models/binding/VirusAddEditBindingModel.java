@@ -19,7 +19,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(exclude = {"capIds", "allCapitals", "allMutations", "allMagnitudes"})
-public class VirusAddEditBindingModel {
+public final class VirusAddEditBindingModel {
 
     private static final String VIRUS_NAME_LENGTH = "{virus.name.length}";
     private static final String VIRUS_DESCRIPTION_LENGTH = "{virus.description.length}";

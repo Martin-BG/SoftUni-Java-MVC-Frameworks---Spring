@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class VirusIdNameMagnitudeAndDateViewModel {
+public final class VirusIdNameMagnitudeAndDateViewModel {
 
     private String id;
 
