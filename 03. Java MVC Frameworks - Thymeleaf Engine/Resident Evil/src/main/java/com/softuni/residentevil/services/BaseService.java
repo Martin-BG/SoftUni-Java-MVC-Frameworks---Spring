@@ -28,7 +28,7 @@ abstract class BaseService {
         return this.validator.validate(t);
     }
 
-    protected final <T> T map(final Object source, final Class<T> clazz) {
+    protected <T> T map(final Object source, final Class<T> clazz) {
         return this.modelMapper.map(source, clazz);
     }
 
@@ -41,6 +41,11 @@ abstract class BaseService {
 
         final T entity = this.map(dto, entityClass);
 
+        return this.persist(entity, repository);
+    }
+
+    protected final boolean persist(final Object entity,
+                                    final JpaRepository repository) {
         try {
             repository.saveAndFlush(entity);
         } catch (Throwable e) {
