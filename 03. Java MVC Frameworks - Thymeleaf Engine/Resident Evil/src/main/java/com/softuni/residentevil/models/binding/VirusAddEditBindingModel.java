@@ -4,6 +4,7 @@ import com.softuni.residentevil.etities.enums.Magnitude;
 import com.softuni.residentevil.etities.enums.Mutation;
 import com.softuni.residentevil.models.view.CapitalNameAndIdViewModel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,10 +14,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class VirusAddBindingModel {
+@EqualsAndHashCode(exclude = {"capIds", "allCapitals", "allMutations", "allMagnitudes"})
+public class VirusAddEditBindingModel {
 
     private static final String VIRUS_NAME_LENGTH = "{virus.name.length}";
     private static final String VIRUS_DESCRIPTION_LENGTH = "{virus.description.length}";
@@ -34,6 +37,7 @@ public class VirusAddBindingModel {
     private static final String VIRUS_RELEASED_ON_DATE_INVALID = "{virus.released-on-date.invalid}";
     private static final String VIRUS_CAPITALS_EMPTY = "{virus.capitals.empty}";
 
+    private String storedId;
 
     // Name – Cannot be empty, should be between 3 and 10 symbols.
     @Length(min = 3, max = 10, message = VIRUS_NAME_LENGTH)
@@ -87,10 +91,32 @@ public class VirusAddBindingModel {
 
     // Capitals – A collection of Capitals.
     @NotEmpty(message = VIRUS_CAPITALS_EMPTY)
-    private List<Long> capitals;
+    private List<Long> capIds = new ArrayList<>();
 
     // Transfer data required for form creation
-    private List<CapitalNameAndIdViewModel> allCapitals;
-    private List<String> allMutations;
-    private List<String> allMagnitudes;
+    private List<CapitalNameAndIdViewModel> allCapitals = new ArrayList<>();
+    private List<String> allMutations = new ArrayList<>();
+    private List<String> allMagnitudes = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "VirusAddEditBindingModel{" +
+                "storedId='" + storedId + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", sideEffects='" + sideEffects + '\'' +
+                ", creator='" + creator + '\'' +
+                ", isDeadly=" + isDeadly +
+                ", isCurable=" + isCurable +
+                ", mutation=" + mutation +
+                ", turnoverRate=" + turnoverRate +
+                ", hoursUntilMutation=" + hoursUntilMutation +
+                ", magnitude=" + magnitude +
+                ", releasedOn=" + releasedOn +
+                ", capIds=" + capIds +
+                ", allCapitals=" + allCapitals.size() +
+                ", allMutations=" + allMutations.size() +
+                ", allMagnitudes=" + allMagnitudes.size() +
+                '}';
+    }
 }
