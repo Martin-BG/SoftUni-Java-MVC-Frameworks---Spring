@@ -17,7 +17,7 @@
 <body>
 <header>
     <nav class="navbar navbar-expand-lg navbar-light">
-        <p class="navbar-brand mb-0 h2">Resident Evil</p>
+        <p class="navbar-brand mb-0 h2" th:text="#{nav-bar.title}"/>
         <button class="navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -27,20 +27,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/}">Home</a>
+                    <a class="nav-link" th:href="@{/}" th:text="#{nav-bar.home}"/>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Viruses
-                    </a>
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                       th:text="#{nav-bar.viruses}"/>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" th:href="@{/viruses}">Show</a>
-                        <a class="dropdown-item" th:href="@{/viruses/add}">Add</a>
+                        <a class="dropdown-item" th:href="@{/viruses}" th:text="#{nav-bar.viruses.show}"/>
+                        <a class="dropdown-item" th:href="@{/viruses/add}" th:text="#{nav-bar.viruses.add}"/>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/map}">Map</a>
+                    <a class="nav-link" th:href="@{/map}" th:text="#{nav-bar.map}"/>
                 </li>
             </ul>
         </div>

@@ -29,7 +29,7 @@ public class Virus {
     private String id;
 
     // Name – Cannot be empty, should be between 3 and 10 symbols.
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, unique = true, length = 10)
     private String name;
 
     // Description – Cannot be empty, should be between 5 and 100 symbols. Represented as Text in the database

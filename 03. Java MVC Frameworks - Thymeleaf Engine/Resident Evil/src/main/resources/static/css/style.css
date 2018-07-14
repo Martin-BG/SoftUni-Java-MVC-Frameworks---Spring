@@ -92,3 +92,33 @@
 .form-control {
     border-color: #CD909C;
 }
+
+.error-text {
+    color: #940A45;
+    font-size: 0.8rem
+}
+
+.noresize {
+    resize: none;
+}
+
+.purple {
+    color: #940A45;
+}
+
+.bg-purple {
+    background-color: #940A45;
+}
+
+.my-button {
+    color: #CD909C;
+    background-color: #940A45;
+    border-color: #940A45;
+}
+
+.my-button:hover,
+.my-button:focus {
+    color: white;
+    background-color: #940A45;
+    border-color: #940A45;
+}

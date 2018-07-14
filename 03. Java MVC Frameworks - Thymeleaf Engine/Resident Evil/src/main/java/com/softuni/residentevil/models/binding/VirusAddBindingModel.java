@@ -1,17 +1,18 @@
 package com.softuni.residentevil.models.binding;
 
 import com.softuni.residentevil.etities.enums.Magnitude;
-import com.softuni.residentevil.etities.enums.Mutaion;
+import com.softuni.residentevil.etities.enums.Mutation;
+import com.softuni.residentevil.models.view.CapitalNameAndIdViewModel;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,10 +25,15 @@ public class VirusAddBindingModel {
     private static final String VIRUS_DEADLY_NULL = "{virus.deadly.null}";
     private static final String VIRUS_CURABLE_NULL = "{virus.curable.null}";
     private static final String VIRUS_MUTATION_NULL = "{virus.mutation.null}";
+    private static final String VIRUS_TURNOVER_RATE_NULL = "{virus.turnover-rate.null}";
     private static final String VIRUS_TURNOVER_RATE_RANGE = "{virus.turnover-rate.range}";
+    private static final String VIRUS_HOURS_UNTIL_MUTATION_NULL = "{virus.hours-until-mutation.null}";
     private static final String VIRUS_HOURS_UNTIL_MUTATION_RANGE = "{virus.hours-until-mutation.range}";
     private static final String VIRUS_MAGNITUDE_NULL = "{virus.magnitude.null}";
+    private static final String VIRUS_RELEASED_ON_DATE_NULL = "{virus.released-on-date.null}";
     private static final String VIRUS_RELEASED_ON_DATE_INVALID = "{virus.released-on-date.invalid}";
+    private static final String VIRUS_CAPITALS_EMPTY = "{virus.capitals.empty}";
+
 
     // Name – Cannot be empty, should be between 3 and 10 symbols.
     @Length(min = 3, max = 10, message = VIRUS_NAME_LENGTH)
@@ -56,13 +62,15 @@ public class VirusAddBindingModel {
     // Mutation – Cannot be null. Should hold one of the following values:
     // ZOMBIE, T_078_TYRANT, GIANT_SPIDER
     @NotNull(message = VIRUS_MUTATION_NULL)
-    private Mutaion mutation;
+    private Mutation mutation;
 
     // Turnover Rate – Number, between 0 and 100.
+    @NotNull(message = VIRUS_TURNOVER_RATE_NULL)
     @Range(min = 0, max = 100, message = VIRUS_TURNOVER_RATE_RANGE)
     private Integer turnoverRate;
 
     // THours Until Turn (to a mutation) – Number, between 1 and 12.
+    @NotNull(message = VIRUS_HOURS_UNTIL_MUTATION_NULL)
     @Range(min = 1, max = 12, message = VIRUS_HOURS_UNTIL_MUTATION_RANGE)
     private Integer hoursUntilMutation;
 
@@ -72,10 +80,17 @@ public class VirusAddBindingModel {
     private Magnitude magnitude;
 
     // Released On – Date, should be before the “today” date.
+    @NotNull(message = VIRUS_RELEASED_ON_DATE_NULL)
     @Past(message = VIRUS_RELEASED_ON_DATE_INVALID)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate releasedOn;
 
     // Capitals – A collection of Capitals.
-    private List<String> capitals = new ArrayList<>();
+    @NotEmpty(message = VIRUS_CAPITALS_EMPTY)
+    private List<Long> capitals;
+
+    // Transfer data required for form creation
+    private List<CapitalNameAndIdViewModel> allCapitals;
+    private List<String> allMutations;
+    private List<String> allMagnitudes;
 }

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CapitalRepository extends JpaRepository<Capital, Long> {
 
+    Capital findByName(final String name);
 }
