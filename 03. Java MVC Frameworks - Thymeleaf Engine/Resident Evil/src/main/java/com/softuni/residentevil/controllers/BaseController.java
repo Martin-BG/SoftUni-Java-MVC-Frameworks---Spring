@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 abstract class BaseController {
 
+    private static final String APPLICATION_TITLE = "application.title";
     private static final String BASE_PAGE_LAYOUT = "/fragments/base-layout";
     private static final String PROPERTY_VIEW_NAME = "viewName";
     private static final String PROPERTY_VIEW_MODEL = "viewModel";
@@ -24,7 +25,7 @@ abstract class BaseController {
                                       final Object viewModel,
                                       String title) {
         if (title == null) {
-            title = this.messageWrapper.getMessage("application.title");
+            title = this.messageWrapper.getMessage(APPLICATION_TITLE);
         }
 
         final ModelAndView modelAndView = new ModelAndView();
@@ -50,10 +51,15 @@ abstract class BaseController {
         return this.view(viewName, null, null);
     }
 
-    protected final ModelAndView redirect(final String redirectUrl) {
+    protected final ModelAndView redirect(final String redirectUrl, final Object viewModel) {
         final ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject(PROPERTY_VIEW_MODEL, viewModel);
         modelAndView.setViewName(REDIRECT_KEYWORD + redirectUrl);
         return modelAndView;
+    }
+
+    protected final ModelAndView redirect(final String redirectUrl) {
+        return this.redirect(redirectUrl, null);
     }
 
     @InitBinder
