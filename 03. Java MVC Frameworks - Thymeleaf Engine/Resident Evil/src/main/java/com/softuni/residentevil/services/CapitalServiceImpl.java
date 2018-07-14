@@ -52,11 +52,14 @@ public class CapitalServiceImpl extends BaseService implements CapitalService {
 
     @Override
     public Capital getByName(final String name) {
-        return this.capitalRepository.findByName(name);
+        return this.capitalRepository
+                .findByName(name);
     }
 
     @Override
     public Capital getById(final Long id) {
-        return this.capitalRepository.getOne(id);
+        return this.capitalRepository
+                .findById(id)
+                .orElse(null);
     }
 }
