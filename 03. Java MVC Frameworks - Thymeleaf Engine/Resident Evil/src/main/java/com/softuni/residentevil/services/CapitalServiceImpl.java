@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CapitalServiceImpl extends BaseService implements CapitalService {
+public final class CapitalServiceImpl extends BaseService implements CapitalService {
 
     private final CapitalRepository capitalRepository;
     private List<CapitalNameAndIdViewModel> allCapitalSimpleViewCached;
