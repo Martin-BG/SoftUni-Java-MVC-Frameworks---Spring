@@ -1,7 +1,8 @@
 package com.softuni.residentevil.etities;
 
+import com.softuni.residentevil.etities.converters.MagnitudeAttributeConverter;
 import com.softuni.residentevil.etities.enums.Magnitude;
-import com.softuni.residentevil.etities.enums.Mutaion;
+import com.softuni.residentevil.etities.enums.Mutation;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
@@ -55,7 +56,7 @@ public class Virus {
     // ZOMBIE, T_078_TYRANT, GIANT_SPIDER
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 12)
-    private Mutaion mutation;
+    private Mutation mutation;
 
     // Turnover Rate – Number, between 0 and 100.
     @Column(nullable = false)
@@ -65,9 +66,9 @@ public class Virus {
     @Column(nullable = false)
     private Integer hoursUntilMutation;
 
-    // Magnitude – Cannot be null. Should hold one of the following values:
     // Low, Medium, High
-    @Enumerated(EnumType.STRING)
+    // Magnitude – Cannot be null. Should hold one of the following values:
+    @Convert(converter = MagnitudeAttributeConverter.class)
     @Column(nullable = false, length = 6)
     private Magnitude magnitude;
 
