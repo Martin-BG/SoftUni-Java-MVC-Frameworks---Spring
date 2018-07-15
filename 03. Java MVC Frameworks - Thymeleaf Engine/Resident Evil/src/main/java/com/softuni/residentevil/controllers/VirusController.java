@@ -1,9 +1,9 @@
 package com.softuni.residentevil.controllers;
 
-import com.softuni.residentevil.etities.enums.Magnitude;
-import com.softuni.residentevil.etities.enums.Mutation;
-import com.softuni.residentevil.models.binding.VirusAddEditBindingModel;
-import com.softuni.residentevil.models.view.VirusIdNameMagnitudeAndDateViewModel;
+import com.softuni.residentevil.domain.enums.Magnitude;
+import com.softuni.residentevil.domain.enums.Mutation;
+import com.softuni.residentevil.domain.models.binding.VirusAddEditBindingModel;
+import com.softuni.residentevil.domain.models.view.VirusIdNameMagnitudeAndDateViewModel;
 import com.softuni.residentevil.services.CapitalService;
 import com.softuni.residentevil.services.VirusService;
 import com.softuni.residentevil.utils.MessageWrapper;
@@ -122,7 +122,7 @@ public final class VirusController extends BaseController {
                         .map(Magnitude::getNormalizedName)
                         .collect(Collectors.toUnmodifiableList()));
 
-        virusAddEditBindingModel.setStoredId(virusId);
+        virusAddEditBindingModel.setId(virusId);
 
         return virusAddEditBindingModel;
     }

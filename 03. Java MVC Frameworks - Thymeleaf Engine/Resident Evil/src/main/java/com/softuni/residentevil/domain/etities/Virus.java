@@ -1,8 +1,8 @@
-package com.softuni.residentevil.etities;
+package com.softuni.residentevil.domain.etities;
 
-import com.softuni.residentevil.etities.converters.MagnitudeAttributeConverter;
-import com.softuni.residentevil.etities.enums.Magnitude;
-import com.softuni.residentevil.etities.enums.Mutation;
+import com.softuni.residentevil.domain.enums.Magnitude;
+import com.softuni.residentevil.domain.enums.Mutation;
+import com.softuni.residentevil.domain.etities.converters.MagnitudeAttributeConverter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;

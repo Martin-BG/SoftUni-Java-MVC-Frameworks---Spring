@@ -1,4 +1,4 @@
-package com.softuni.residentevil.etities.enums;
+package com.softuni.residentevil.domain.enums;
 
 public enum Magnitude {
     LOW, MEDIUM, HIGH;

@@ -1,9 +1,9 @@
 package com.softuni.residentevil.services;
 
-import com.softuni.residentevil.etities.Capital;
-import com.softuni.residentevil.etities.Virus;
-import com.softuni.residentevil.models.binding.VirusAddEditBindingModel;
-import com.softuni.residentevil.models.view.VirusIdNameMagnitudeAndDateViewModel;
+import com.softuni.residentevil.domain.etities.Capital;
+import com.softuni.residentevil.domain.etities.Virus;
+import com.softuni.residentevil.domain.models.binding.VirusAddEditBindingModel;
+import com.softuni.residentevil.domain.models.view.VirusIdNameMagnitudeAndDateViewModel;
 import com.softuni.residentevil.repositories.VirusRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,19 +31,17 @@ public final class VirusServiceImpl extends BaseService implements VirusService 
     }
 
     @Override
-    protected <T> T map(final Object source, final Class<T> clazz) {
-        final T virus = super.map(source, clazz);
+    protected <T> T mapDtoToEntity(final Object dto, final Class<T> entityClass) {
+        final T virus = super.map(dto, entityClass);
 
         ((Virus) virus)
                 .setCapitals(
-                        ((VirusAddEditBindingModel) source)
+                        ((VirusAddEditBindingModel) dto)
                                 .getCapIds()
                                 .stream()
                                 .map(this.capitalService::getById)
                                 .filter(Objects::nonNull)
                                 .collect(Collectors.toSet()));
-
-        ((Virus) virus).setId(((VirusAddEditBindingModel) source).getStoredId());
 
         return virus;
     }
@@ -86,23 +84,14 @@ public final class VirusServiceImpl extends BaseService implements VirusService 
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    @Override
     public boolean update(final VirusAddEditBindingModel dto) {
-        if (dto == null
-                || dto.getStoredId() == null
-                || !super.isValid(dto)) {
+        final Virus virus = super.getEntityFromDto(dto, this.virusRepository);
+
+        final Virus updated = this.mapDtoToEntity(dto, Virus.class);
+
+        if (virus == null || updated == null) {
             return false;
         }
-
-        final Virus virus = this.virusRepository
-                .findById(dto.getStoredId())
-                .orElse(null);
-
-        if (virus == null) {
-            return false;
-        }
-
-        final Virus updated = this.map(dto, Virus.class);
 
         updated.setReleasedOn(virus.getReleasedOn()); //Yet another level of protection (Date is not editable by requirement)
 

@@ -1,4 +1,4 @@
-package com.softuni.residentevil.etities;
+package com.softuni.residentevil.domain.etities;
 
 
 import lombok.Data;

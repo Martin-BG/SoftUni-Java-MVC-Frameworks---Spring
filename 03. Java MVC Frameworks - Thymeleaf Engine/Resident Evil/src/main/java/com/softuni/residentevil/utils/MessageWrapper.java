@@ -14,8 +14,4 @@ public final class MessageWrapper {
     public String getMessage(final String code, final Object... args) {
         return this.messageSource.getMessage(code, args, LocaleContextHolder.getLocale()); // Locale.getDefault()
     }
-
-    public String getMessage(final String code) {
-        return this.getMessage(code, null);
-    }
 }

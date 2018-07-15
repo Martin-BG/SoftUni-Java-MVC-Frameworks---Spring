@@ -1,8 +1,9 @@
-package com.softuni.residentevil.models.binding;
+package com.softuni.residentevil.domain.models.binding;
 
-import com.softuni.residentevil.etities.enums.Magnitude;
-import com.softuni.residentevil.etities.enums.Mutation;
-import com.softuni.residentevil.models.view.CapitalNameAndIdViewModel;
+import com.softuni.residentevil.domain.api.Identifiable;
+import com.softuni.residentevil.domain.enums.Magnitude;
+import com.softuni.residentevil.domain.enums.Mutation;
+import com.softuni.residentevil.domain.models.view.CapitalNameAndIdViewModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(exclude = {"capIds", "allCapitals", "allMutations", "allMagnitudes"})
-public final class VirusAddEditBindingModel {
+public final class VirusAddEditBindingModel implements Identifiable<String> {
 
     private static final String VIRUS_NAME_LENGTH = "{virus.name.length}";
     private static final String VIRUS_DESCRIPTION_LENGTH = "{virus.description.length}";
@@ -37,7 +38,7 @@ public final class VirusAddEditBindingModel {
     private static final String VIRUS_RELEASED_ON_DATE_INVALID = "{virus.released-on-date.invalid}";
     private static final String VIRUS_CAPITALS_EMPTY = "{virus.capitals.empty}";
 
-    private String storedId;
+    private String id;
 
     // Name – Cannot be empty, should be between 3 and 10 symbols.
     @Length(min = 3, max = 10, message = VIRUS_NAME_LENGTH)
@@ -101,7 +102,7 @@ public final class VirusAddEditBindingModel {
     @Override
     public String toString() {
         return "VirusAddEditBindingModel{" +
-                "storedId='" + storedId + '\'' +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", sideEffects='" + sideEffects + '\'' +

@@ -1,5 +1,6 @@
 package com.softuni.residentevil.services;
 
+import com.softuni.residentevil.domain.api.Identifiable;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,32 +21,36 @@ abstract class BaseService {
         this.modelMapper = modelMapper;
     }
 
-    protected final boolean isValid(final Object t) {
+    final boolean isValid(final Object t) {
         return t != null && this.validator.validate(t).isEmpty();
     }
 
-    protected final <T> Set<ConstraintViolation<T>> validate(final T t) {
+    final <T> Set<ConstraintViolation<T>> validate(final T t) {
         return this.validator.validate(t);
     }
 
-    protected <T> T map(final Object source, final Class<T> clazz) {
+    final <T> T map(final Object source, final Class<T> clazz) {
         return this.modelMapper.map(source, clazz);
     }
 
-    protected final <T> boolean validateAndCreate(final Object dto,
-                                                  final Class<T> entityClass,
-                                                  final JpaRepository repository) {
+    <T> T mapDtoToEntity(final Object dto, final Class<T> entityClass) {
+        return this.modelMapper.map(dto, entityClass);
+    }
+
+    final <ENTITY> boolean validateAndCreate(final Object dto,
+                                             final Class<ENTITY> entityClass,
+                                             final JpaRepository<ENTITY, ?> repository) {
         if (!this.isValid(dto)) {
             return false; // TODO - proper error handling
         }
 
-        final T entity = this.map(dto, entityClass);
+        final ENTITY entity = this.mapDtoToEntity(dto, entityClass);
 
         return this.persist(entity, repository);
     }
 
-    protected final boolean persist(final Object entity,
-                                    final JpaRepository repository) {
+    final boolean persist(final Object entity,
+                          final JpaRepository repository) {
         try {
             repository.saveAndFlush(entity);
         } catch (Throwable e) {
@@ -53,5 +58,18 @@ abstract class BaseService {
         }
 
         return true;
+    }
+
+    final <ENTITY, ID, DTO extends Identifiable<ID>> ENTITY getEntityFromDto(
+            final DTO dto,
+            final JpaRepository<ENTITY, ID> repository) {
+
+        if (dto != null && dto.getId() != null && this.isValid(dto)) {
+            return repository
+                    .findById(dto.getId())
+                    .orElse(null);
+        }
+
+        return null;
     }
 }

@@ -1,7 +1,7 @@
 package com.softuni.residentevil.services;
 
-import com.softuni.residentevil.models.binding.VirusAddEditBindingModel;
-import com.softuni.residentevil.models.view.VirusIdNameMagnitudeAndDateViewModel;
+import com.softuni.residentevil.domain.models.binding.VirusAddEditBindingModel;
+import com.softuni.residentevil.domain.models.view.VirusIdNameMagnitudeAndDateViewModel;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package com.softuni.residentevil.etities.converters;
+package com.softuni.residentevil.domain.etities.converters;
 
-import com.softuni.residentevil.etities.enums.Magnitude;
+import com.softuni.residentevil.domain.enums.Magnitude;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

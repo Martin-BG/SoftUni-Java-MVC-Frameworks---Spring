@@ -21,9 +21,9 @@ abstract class BaseController {
         this.messageWrapper = messageWrapper;
     }
 
-    protected final ModelAndView view(final String viewName,
-                                      final Object viewModel,
-                                      String title) {
+    final ModelAndView view(final String viewName,
+                            final Object viewModel,
+                            String title) {
         if (title == null) {
             title = this.messageWrapper.getMessage(APPLICATION_TITLE);
         }
@@ -37,28 +37,28 @@ abstract class BaseController {
         return modelAndView;
     }
 
-    protected final ModelAndView view(final String viewName,
-                                      final String title) {
+    final ModelAndView view(final String viewName,
+                            final String title) {
         return this.view(viewName, null, title);
     }
 
-    protected final ModelAndView view(final String viewName,
-                                      final Object viewModel) {
+    final ModelAndView view(final String viewName,
+                            final Object viewModel) {
         return this.view(viewName, viewModel, null);
     }
 
-    protected final ModelAndView view(final String viewName) {
+    final ModelAndView view(final String viewName) {
         return this.view(viewName, null, null);
     }
 
-    protected final ModelAndView redirect(final String redirectUrl, final Object viewModel) {
+    final ModelAndView redirect(final String redirectUrl, final Object viewModel) {
         final ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject(PROPERTY_VIEW_MODEL, viewModel);
         modelAndView.setViewName(REDIRECT_KEYWORD + redirectUrl);
         return modelAndView;
     }
 
-    protected final ModelAndView redirect(final String redirectUrl) {
+    final ModelAndView redirect(final String redirectUrl) {
         return this.redirect(redirectUrl, null);
     }
 
