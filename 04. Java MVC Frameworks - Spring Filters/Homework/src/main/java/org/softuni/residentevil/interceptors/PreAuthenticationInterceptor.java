@@ -52,7 +52,11 @@ public class PreAuthenticationInterceptor extends HandlerInterceptorAdapter {
                             || isInRole) {
 
                         if (isLoggedIn && !isInRole) {
-                            response.sendRedirect("/home");
+                            if (request.getSession().getAttribute("user-role") == UserRole.USER) {
+                                response.sendRedirect("/home");
+                            } else {
+                                response.sendRedirect("/admin/home");
+                            }
                         } else {
                             response.sendRedirect("/login");
                         }
