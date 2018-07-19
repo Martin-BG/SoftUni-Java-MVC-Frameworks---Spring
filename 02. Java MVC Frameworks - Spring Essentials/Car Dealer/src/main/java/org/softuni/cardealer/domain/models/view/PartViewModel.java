@@ -7,13 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarViewModel {
+public class PartViewModel {
 
-    private Long id;
+    private String name;
 
-    private String make;
-
-    private String model;
-
-    private Long travelledDistance;
+    private Double price;
 }

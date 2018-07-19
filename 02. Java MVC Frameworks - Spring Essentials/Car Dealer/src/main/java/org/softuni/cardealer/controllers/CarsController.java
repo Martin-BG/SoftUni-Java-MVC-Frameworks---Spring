@@ -1,6 +1,7 @@
 package org.softuni.cardealer.controllers;
 
 import org.softuni.cardealer.domain.models.view.CarViewModel;
+import org.softuni.cardealer.domain.models.view.CarWithPartsViewModel;
 import org.softuni.cardealer.services.CarService;
 import org.softuni.cardealer.utils.MessageWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,16 @@ public class CarsController extends BaseController {
     public ModelAndView getAll() {
         final List<CarViewModel> cars = this.carService.getAll();
         return super.view("/cars/table", cars);
+    }
+
+    @GetMapping("/{carId}/parts")
+    public ModelAndView getByCarDetails(@PathVariable Long carId) {
+        final CarWithPartsViewModel model = this.carService.getCarWithParts(carId);
+
+        if (model == null) {
+            return super.redirect("/cars");
+        }
+
+        return super.view("/cars/details", model);
     }
 }

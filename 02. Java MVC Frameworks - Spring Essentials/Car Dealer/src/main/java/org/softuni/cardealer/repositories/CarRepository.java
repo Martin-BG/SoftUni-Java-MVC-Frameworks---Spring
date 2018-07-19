@@ -13,13 +13,13 @@ import java.util.List;
 public interface CarRepository extends JpaRepository<Car, Long> {
 
     @Query(value = "" +
-            "SELECT new org.softuni.cardealer.domain.models.view.CarViewModel(c.make, c.model, c.travelledDistance) " +
+            "SELECT new org.softuni.cardealer.domain.models.view.CarViewModel(c.id, c.make, c.model, c.travelledDistance) " +
             "FROM Car AS c WHERE c.make = :make " +
             "ORDER BY c.model DESC, c.travelledDistance ASC")
     List<CarViewModel> findByMake(@Param("make") final String make);
 
     @Query(value = "" +
-            "SELECT new org.softuni.cardealer.domain.models.view.CarViewModel(c.make, c.model, c.travelledDistance)" +
+            "SELECT new org.softuni.cardealer.domain.models.view.CarViewModel(c.id, c.make, c.model, c.travelledDistance)" +
             "FROM Car AS c " +
             "ORDER BY c.make DESC, c.model DESC, c.travelledDistance ASC")
     List<CarViewModel> getAll();

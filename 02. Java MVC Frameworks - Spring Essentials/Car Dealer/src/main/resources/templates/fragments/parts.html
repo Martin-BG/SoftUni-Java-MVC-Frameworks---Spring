@@ -1,0 +1,18 @@
+<table class="table mt-3 mb-5 center-block w-100 mx-auto"
+       th:fragment="parts (title, parts)">
+    <h2 class="header mt-3 mb-4 center-block text-center w-100 mx-auto" th:text="*{title}"/>
+    <thead>
+    <tr>
+        <th scope="col" th:text="#{parts.table-header.name}"/>
+        <th scope="col" th:text="#{parts.table-header.price}"/>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="part : ${parts}" th:object="${part}">
+        <tr>
+            <td th:text="*{name}"/>
+            <td th:text="*{price}"/>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
