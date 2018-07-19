@@ -1,6 +1,7 @@
-package org.softuni.cardealer.entities;
+package org.softuni.cardealer.domain.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "suppliers")
+@EqualsAndHashCode(exclude = {"parts"})
 public class Supplier {
 
     @Id
@@ -17,7 +19,8 @@ public class Supplier {
 
     private String name;
 
-    private Boolean isImporter;
+    @Column(name = "is_importer")
+    private Boolean importer;
 
     @OneToMany(
             mappedBy = "supplier",

@@ -1,0 +1,19 @@
+<table id="table" class="table mt-3 mb-5 center-block w-100 mx-auto">
+    <h2 class="header mt-3 mb-4 center-block text-center w-100 mx-auto" th:text="#{customers.all.title}"/>
+    <thead>
+    <tr>
+        <th scope="col" th:text="#{customers.all.table-header.name}"/>
+        <th scope="col" th:text="#{customers.all.table-header.birth-date}"/>
+        <th scope="col" th:text="#{customers.all.table-header.young-driver}"/>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="customer : ${viewModel}" th:object="${customer}">
+        <tr>
+            <td th:text="*{name}"/>
+            <td th:text="${#temporals.format(customer.getBirthDate(), 'dd-MMM-yyyy')}"/>
+            <td th:text="*{youngDriver}"/>
+        </tr>
+    </th:block>
+    </tbody>
+</table>

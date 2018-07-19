@@ -1,6 +1,7 @@
-package org.softuni.cardealer.entities;
+package org.softuni.cardealer.domain.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "customers")
+@EqualsAndHashCode(exclude = {"sales"})
 public class Customer {
 
     @Id
@@ -20,7 +22,8 @@ public class Customer {
 
     private LocalDate birthDate;
 
-    private Boolean isYoungDriver;
+    @Column(name = "is_young_driver")
+    private Boolean youngDriver;
 
     @OneToMany(
             mappedBy = "customer",

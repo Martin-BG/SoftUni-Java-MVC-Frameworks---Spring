@@ -1,4 +1,4 @@
-package org.softuni.cardealer.entities;
+package org.softuni.cardealer.domain.entities;
 
 import lombok.Data;
 

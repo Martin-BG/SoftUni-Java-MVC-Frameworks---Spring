@@ -1,6 +1,7 @@
-package org.softuni.cardealer.entities;
+package org.softuni.cardealer.domain.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "parts")
+@EqualsAndHashCode(exclude = {"cars"})
 public class Part {
 
     @Id
