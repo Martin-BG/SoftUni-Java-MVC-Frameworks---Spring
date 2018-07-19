@@ -10,7 +10,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "cars")
-@EqualsAndHashCode(exclude = {"sales, parts"})
+@EqualsAndHashCode(exclude = {"sales", "parts"})
 public class Car {
 
     @Id
@@ -36,4 +36,11 @@ public class Car {
             joinColumns = {@JoinColumn(name = "part_id")},
             inverseJoinColumns = {@JoinColumn(name = "car_id")})
     private Set<Part> parts = new HashSet<>();
+
+    public Double calculateTotalPrice() {
+        return this.parts
+                .stream()
+                .map(Part::getPrice)
+                .reduce(0.0, Double::sum);
+    }
 }

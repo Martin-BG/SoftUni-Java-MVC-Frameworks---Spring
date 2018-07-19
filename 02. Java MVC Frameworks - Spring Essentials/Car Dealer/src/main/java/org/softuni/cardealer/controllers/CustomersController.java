@@ -1,5 +1,6 @@
 package org.softuni.cardealer.controllers;
 
+import org.softuni.cardealer.domain.models.view.CustomerDetailsView;
 import org.softuni.cardealer.domain.models.view.CustomerViewModel;
 import org.softuni.cardealer.services.CarService;
 import org.softuni.cardealer.services.CustomerService;
@@ -7,6 +8,7 @@ import org.softuni.cardealer.utils.MessageWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -43,5 +45,11 @@ public class CustomersController extends BaseController {
         final Iterable<CustomerViewModel> byBirthDateDescending =
                 this.customerService.getByBirthDate(true);
         return super.view("/customers/table", byBirthDateDescending);
+    }
+
+    @GetMapping("/{customerId}")
+    public ModelAndView getByMake(@PathVariable Long customerId) {
+        final CustomerDetailsView model = this.customerService.getDetailsById(customerId);
+        return super.view("/customers/details", model);
     }
 }
