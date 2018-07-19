@@ -9,4 +9,6 @@ public interface CarService {
     List<CarViewModel> getByMake(final String make);
 
     List<CarViewModel> getAll();
+
+    List<String> getMakers();
 }

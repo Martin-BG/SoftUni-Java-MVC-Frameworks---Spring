@@ -1,5 +1,6 @@
 package org.softuni.cardealer.controllers;
 
+import org.softuni.cardealer.services.CarService;
 import org.softuni.cardealer.utils.MessageWrapper;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.web.bind.WebDataBinder;
@@ -10,15 +11,19 @@ abstract class BaseController {
 
     private static final String APPLICATION_TITLE = "application.title";
     private static final String BASE_PAGE_LAYOUT = "/fragments/base-layout";
+    private static final String PROPERTY_MAKERS_NAME = "makers";
     private static final String PROPERTY_VIEW_NAME = "viewName";
     private static final String PROPERTY_VIEW_MODEL = "viewModel";
     private static final String PROPERTY_TITLE = "title";
     private static final String REDIRECT_KEYWORD = "redirect:";
 
     private final MessageWrapper messageWrapper;
+    private final CarService carService;
 
-    protected BaseController(final MessageWrapper messageWrapper) {
+    protected BaseController(final MessageWrapper messageWrapper,
+                             final CarService carService) {
         this.messageWrapper = messageWrapper;
+        this.carService = carService;
     }
 
     final ModelAndView view(final String viewName,
@@ -33,6 +38,7 @@ abstract class BaseController {
         modelAndView.addObject(PROPERTY_VIEW_NAME, viewName);
         modelAndView.addObject(PROPERTY_VIEW_MODEL, viewModel);
         modelAndView.addObject(PROPERTY_TITLE, title);
+        modelAndView.addObject(PROPERTY_MAKERS_NAME, this.carService.getMakers());
 
         return modelAndView;
     }

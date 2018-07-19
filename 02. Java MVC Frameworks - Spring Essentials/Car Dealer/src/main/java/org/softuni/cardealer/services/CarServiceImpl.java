@@ -32,4 +32,9 @@ public class CarServiceImpl implements CarService {
     public List<CarViewModel> getAll() {
         return this.carRepository.getAll();
     }
+
+    @Override
+    public List<String> getMakers() {
+        return this.carRepository.getAllMakers();
+    }
 }

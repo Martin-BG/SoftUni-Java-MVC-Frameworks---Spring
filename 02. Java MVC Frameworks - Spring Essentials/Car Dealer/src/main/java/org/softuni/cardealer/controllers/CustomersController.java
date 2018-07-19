@@ -1,6 +1,7 @@
 package org.softuni.cardealer.controllers;
 
 import org.softuni.cardealer.domain.models.view.CustomerViewModel;
+import org.softuni.cardealer.services.CarService;
 import org.softuni.cardealer.services.CustomerService;
 import org.softuni.cardealer.utils.MessageWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,9 @@ public class CustomersController extends BaseController {
 
     @Autowired
     protected CustomersController(final MessageWrapper messageWrapper,
+                                  final CarService carService,
                                   final CustomerService customerService) {
-        super(messageWrapper);
+        super(messageWrapper, carService);
         this.customerService = customerService;
     }
 

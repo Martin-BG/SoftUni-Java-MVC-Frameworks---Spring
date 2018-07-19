@@ -48,6 +48,10 @@
                        th:text="#{nav-bar.cars}"/>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" th:href="@{/cars}" th:text="#{nav-bar.cars.all}"/>
+                        <div class="dropdown-divider"></div>
+                        <th:block th:each="make : ${makers}">
+                            <a class="dropdown-item" th:href="@{/cars/{make} (make=*{make})}" th:text="*{make}"/>
+                        </th:block>
                     </div>
                 </li>
                 <li class="nav-item dropdown">

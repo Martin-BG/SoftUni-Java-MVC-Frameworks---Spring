@@ -23,4 +23,11 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             "FROM Car AS c " +
             "ORDER BY c.make DESC, c.model DESC, c.travelledDistance ASC")
     List<CarViewModel> getAll();
+
+    @Query(value = "" +
+            "SELECT c.make " +
+            "FROM Car AS c " +
+            "GROUP BY c.make " +
+            "ORDER BY c.make")
+    List<String> getAllMakers();
 }

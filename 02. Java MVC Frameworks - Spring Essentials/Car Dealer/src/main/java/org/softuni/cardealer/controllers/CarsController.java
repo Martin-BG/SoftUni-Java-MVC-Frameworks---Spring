@@ -21,7 +21,7 @@ public class CarsController extends BaseController {
     @Autowired
     protected CarsController(final MessageWrapper messageWrapper,
                              final CarService carService) {
-        super(messageWrapper);
+        super(messageWrapper, carService);
         this.carService = carService;
     }
 
