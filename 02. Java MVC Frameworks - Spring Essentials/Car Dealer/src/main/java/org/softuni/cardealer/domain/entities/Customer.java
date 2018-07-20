@@ -14,9 +14,9 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"sales"})
 public class Customer {
 
-    private static final double PRICE_MODIFIER_PERCENTAGE_FOR_YOUNG_DRIVERS = -5.0;
+    private static final double PRICE_DISCOUNT_MODIFIER_PERCENTAGE_FOR_YOUNG_DRIVERS = 5.0;
     private static final double PRICE_MODIFIER_FOR_YOUNG_DRIVERS =
-            (100.0 + PRICE_MODIFIER_PERCENTAGE_FOR_YOUNG_DRIVERS) / 100.0;
+            (100.0 - PRICE_DISCOUNT_MODIFIER_PERCENTAGE_FOR_YOUNG_DRIVERS) / 100.0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
