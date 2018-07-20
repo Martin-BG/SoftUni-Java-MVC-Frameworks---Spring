@@ -11,6 +11,8 @@ public class SaleViewModel {
 
     private Long id;
 
+    private Double discount;
+
     private Long customerId;
 
     private Long carId;
