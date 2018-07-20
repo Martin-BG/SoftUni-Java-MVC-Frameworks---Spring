@@ -16,4 +16,17 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             "FROM Sale AS s " +
             "WHERE s.customer.id = :customerId")
     List<Sale> getPurchasesForCustomer(@Param("customerId") final Long customerId);
+
+    @Query(value = "" +
+            "SELECT s " +
+            "FROM Sale AS s " +
+            "WHERE s.discount > 0 " +
+            "ORDER BY s.discount")
+    List<Sale> getAllDiscounted();
+
+    @Query(value = "" +
+            "SELECT s " +
+            "FROM Sale AS s " +
+            "WHERE s.discount = :discount")
+    List<Sale> getAllDiscountedByPercentage(@Param("discount") final Double discount);
 }

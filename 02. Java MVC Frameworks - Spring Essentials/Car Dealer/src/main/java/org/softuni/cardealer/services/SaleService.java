@@ -13,4 +13,8 @@ public interface SaleService {
     List<SaleViewModel> getAllSales();
 
     SaleDetailsViewModel getSaleDetails(final Long id);
+
+    List<SaleViewModel> getAllDiscounted();
+
+    List<SaleViewModel> getAllDiscountedByPercentage(final Integer percentage);
 }

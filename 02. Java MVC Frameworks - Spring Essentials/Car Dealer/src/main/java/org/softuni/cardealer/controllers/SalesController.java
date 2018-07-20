@@ -33,8 +33,20 @@ public class SalesController extends BaseController {
     }
 
     @GetMapping("/{saleId}")
-    public ModelAndView getByMake(@PathVariable Long saleId) {
+    public ModelAndView getById(@PathVariable Long saleId) {
         final SaleDetailsViewModel model = this.saleService.getSaleDetails(saleId);
         return super.view("/sales/details", model);
+    }
+
+    @GetMapping("/discounted")
+    public ModelAndView getDiscounted() {
+        final List<SaleViewModel> sales = this.saleService.getAllDiscounted();
+        return super.view("/sales/all", sales);
+    }
+
+    @GetMapping("/discounted/{percentage}")
+    public ModelAndView getDiscountedWithPercentage(@PathVariable Integer percentage) {
+        final List<SaleViewModel> sales = this.saleService.getAllDiscountedByPercentage(percentage);
+        return super.view("/sales/all", sales);
     }
 }

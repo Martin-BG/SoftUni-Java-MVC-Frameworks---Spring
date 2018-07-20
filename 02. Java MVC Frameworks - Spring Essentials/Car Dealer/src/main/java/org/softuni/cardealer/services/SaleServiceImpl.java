@@ -48,6 +48,10 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public List<SaleViewModel> getAllSales() {
         final List<Sale> sales = this.saleRepository.findAll();
+        return getSaleViewModelsFromSales(sales);
+    }
+
+    private List<SaleViewModel> getSaleViewModelsFromSales(final List<Sale> sales) {
         final List<SaleViewModel> views = new ArrayList<>(sales.size());
 
         for (final Sale sale : sales) {
@@ -85,6 +89,18 @@ public class SaleServiceImpl implements SaleService {
         model.setCarWithPartsViewModel(this.carService.getCarWithParts(sale.getCar().getId()));
 
         return model;
+    }
+
+    @Override
+    public List<SaleViewModel> getAllDiscounted() {
+        final List<Sale> sales = this.saleRepository.getAllDiscounted();
+        return getSaleViewModelsFromSales(sales);
+    }
+
+    @Override
+    public List<SaleViewModel> getAllDiscountedByPercentage(final Integer percentage) {
+        final List<Sale> sales = this.saleRepository.getAllDiscountedByPercentage(percentage * 0.01);
+        return getSaleViewModelsFromSales(sales);
     }
 
     private double getPriceModifier(final Sale sale) {
