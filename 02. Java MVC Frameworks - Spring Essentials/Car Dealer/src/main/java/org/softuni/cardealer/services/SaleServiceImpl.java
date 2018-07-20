@@ -48,11 +48,19 @@ public class SaleServiceImpl implements SaleService {
             model.setCarMake(sale.getCar().getMake());
             model.setCarModel(sale.getCar().getModel());
             model.setCarBasePrice(sale.getCar().calculateTotalPrice());
-            model.setCarFinalPrice(model.getCarBasePrice() * sale.evaluatePriceModifier() * sale.getCustomer().evaluatePriceModifier());
-            model.setTotalDiscount((sale.getDiscount() + sale.getCustomer().discount()) * 100.0);
+            model.setTotalDiscount(this.getTotalDiscount(sale));
+            model.setCarFinalPrice(model.getCarBasePrice() * this.getPriceModifier(sale));
             views.add(model);
         }
 
         return views;
+    }
+
+    private double getPriceModifier(final Sale sale) {
+        return 1.0 - (sale.getCustomer().discount() + sale.getDiscount());
+    }
+
+    private double getTotalDiscount(final Sale sale) {
+        return (sale.getCustomer().discount() + sale.getDiscount()) * 100.0;
     }
 }
