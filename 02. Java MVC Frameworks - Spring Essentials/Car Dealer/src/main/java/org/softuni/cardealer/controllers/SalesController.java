@@ -1,23 +1,32 @@
 package org.softuni.cardealer.controllers;
 
+import org.softuni.cardealer.domain.models.view.SaleViewModel;
 import org.softuni.cardealer.services.CarService;
+import org.softuni.cardealer.services.SaleService;
 import org.softuni.cardealer.utils.MessageWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/sales")
 public class SalesController extends BaseController {
 
+    private final SaleService saleService;
+
     protected SalesController(final MessageWrapper messageWrapper,
-                              final CarService carService) {
+                              final CarService carService,
+                              final SaleService saleService) {
         super(messageWrapper, carService);
+        this.saleService = saleService;
     }
 
     @GetMapping(value = {"", "/"})
     public ModelAndView rootGet() {
-        return super.view("/sales/all");
+        final List<SaleViewModel> sales = this.saleService.getAllSales();
+        return super.view("/sales/all", sales);
     }
 }

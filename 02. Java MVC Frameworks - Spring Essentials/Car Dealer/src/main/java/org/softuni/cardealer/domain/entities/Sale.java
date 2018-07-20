@@ -23,7 +23,7 @@ public class Sale {
     @JoinColumn(name = "car_id", nullable = false)
     private Car car;
 
-    public Double priceModifier() {
-        return (100.0 - discount) / 100.0;
+    public Double evaluatePriceModifier() {
+        return 1.0 - this.discount;
     }
 }

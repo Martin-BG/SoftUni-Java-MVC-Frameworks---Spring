@@ -14,9 +14,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"sales"})
 public class Customer {
 
-    private static final double PRICE_DISCOUNT_MODIFIER_PERCENTAGE_FOR_YOUNG_DRIVERS = 5.0;
-    private static final double PRICE_MODIFIER_FOR_YOUNG_DRIVERS =
-            (100.0 - PRICE_DISCOUNT_MODIFIER_PERCENTAGE_FOR_YOUNG_DRIVERS) / 100.0;
+    private static final double PRICE_MODIFIER_FOR_YOUNG_DRIVERS = 0.05;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +34,11 @@ public class Customer {
     )
     private Set<Sale> sales = new HashSet<>();
 
-    public Double priceModifier() {
-        return this.youngDriver ? PRICE_MODIFIER_FOR_YOUNG_DRIVERS : 1.0;
+    public Double discount() {
+        return this.youngDriver ? PRICE_MODIFIER_FOR_YOUNG_DRIVERS : 0.0;
+    }
+
+    public Double evaluatePriceModifier() {
+        return 1.0 - this.discount();
     }
 }
