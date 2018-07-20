@@ -1,4 +1,5 @@
 <table class="table mt-2 mb-2 center-block w-100 mx-auto"
+       xmlns:th="http://www.w3.org/1999/xhtml"
        th:fragment="cars (title, cars)">
     <h2 class="header mt-2 mb-2 center-block text-center w-100 mx-auto" th:text="*{title}"/>
     <thead>
@@ -12,7 +13,7 @@
     <tbody>
     <th:block th:each="car : *{cars}" th:object="${car}">
         <tr>
-            <td th:text="*{make}"/>
+            <td><a th:href="@{/cars/{make} (make=*{make})}" th:text="*{make}"/></td>
             <td th:text="*{model}"/>
             <td th:text="*{travelledDistance}"/>
             <td>

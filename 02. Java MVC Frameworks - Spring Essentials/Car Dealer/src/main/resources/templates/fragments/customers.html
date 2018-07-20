@@ -7,21 +7,14 @@
         <th scope="col" th:text="#{customers.all.table-header.name}"/>
         <th scope="col" th:text="#{customers.all.table-header.birth-date}"/>
         <th scope="col" th:text="#{customers.all.table-header.young-driver}"/>
-        <th/>
     </tr>
     </thead>
     <tbody>
     <th:block th:each="customer : *{customers}" th:object="${customer}">
         <tr>
-            <td th:text="*{name}"/>
+            <td><a th:href="@{/customers/{customerId} (customerId=*{id})}" th:text="*{name}"/></td>
             <td th:text="${#temporals.format(customer.getBirthDate(), 'dd-MMM-yyyy')}"/>
             <td th:text="*{youngDriver}"/>
-            <td>
-                <form th:method="get" th:action="@{/customers/{customerId} (customerId=*{id})}">
-                    <button type="submit" class="btn btn-light btn-sm border-dark"
-                            th:text="#{customers.all.table-button.details}"/>
-                </form>
-            </td>
         </tr>
     </th:block>
     </tbody>

@@ -21,7 +21,11 @@
             <td th:text="*{carModel}"/>
             <td><a th:href="@{/customers/{customerId} (customerId=*{customerId})}" th:text="*{customerName}"/></td>
             <td th:text="*{#numbers.formatDecimal(carBasePrice, 1, 'DEFAULT', 2, 'DEFAULT')}"/>
-            <td th:text="|*{#numbers.formatDecimal(discount, 1, 'DEFAULT', 2, 'DEFAULT')} %|"/>
+            <td>
+                <a th:href="@{/sales/discounted/{percentage}
+                (percentage=*{#numbers.formatDecimal(discount, 1, 'DEFAULT', 0, 'DEFAULT')})}"
+                   th:text="|*{#numbers.formatDecimal(discount, 1, 'DEFAULT', 2, 'DEFAULT')} %|"/>
+            </td>
             <td th:text="|*{#numbers.formatDecimal(totalDiscount, 1, 'DEFAULT', 2, 'DEFAULT')} %|"/>
             <td th:text="*{#numbers.formatDecimal(carFinalPrice, 1, 'DEFAULT', 2, 'DEFAULT')}"/>
             <td>
