@@ -14,6 +14,10 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"sales"})
 public class Customer {
 
+    private static final double PRICE_MODIFIER_PERCENTAGE_FOR_YOUNG_DRIVERS = -5.0;
+    private static final double PRICE_MODIFIER_FOR_YOUNG_DRIVERS =
+            (100.0 + PRICE_MODIFIER_PERCENTAGE_FOR_YOUNG_DRIVERS) / 100.0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,4 +35,8 @@ public class Customer {
             cascade = CascadeType.REMOVE
     )
     private Set<Sale> sales = new HashSet<>();
+
+    public Double priceModifier() {
+        return this.youngDriver ? PRICE_MODIFIER_FOR_YOUNG_DRIVERS : 1.0;
+    }
 }

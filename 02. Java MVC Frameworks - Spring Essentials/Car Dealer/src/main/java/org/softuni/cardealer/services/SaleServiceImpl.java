@@ -29,7 +29,7 @@ public class SaleServiceImpl implements SaleService {
         final List<Sale> purchases = this.saleRepository
                 .getPurchasesForCustomer(customerId);
         return purchases.stream()
-                .map(p -> p.getCar().calculateTotalPrice() * p.getDiscount())
+                .map(p -> p.getCar().calculateTotalPrice() * p.priceModifier())
                 .collect(Collectors.toUnmodifiableList());
     }
 }

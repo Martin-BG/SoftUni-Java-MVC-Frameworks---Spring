@@ -50,11 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
         final List<Double> purchases = this.saleService.getPurchasesForCustomer(customerId);
 
         model.setCarsBought(purchases.size());
-        model.setMoneySpent(purchases.stream().reduce(0.0d, Double::sum));
-
-        if (customer.getYoungDriver()) {
-            model.setMoneySpent(model.getMoneySpent() * 0.95d);
-        }
+        model.setMoneySpent(purchases.stream().reduce(0.0d, Double::sum) * customer.priceModifier());
 
         return model;
     }
