@@ -41,12 +41,12 @@ public class SalesController extends BaseController {
     @GetMapping("/discounted")
     public ModelAndView getDiscounted() {
         final List<SaleViewModel> sales = this.saleService.getAllDiscounted();
-        return super.view("/sales/all", sales);
+        return super.view("/sales/discounted", sales);
     }
 
     @GetMapping("/discounted/{percentage}")
     public ModelAndView getDiscountedWithPercentage(@PathVariable Integer percentage) {
         final List<SaleViewModel> sales = this.saleService.getAllDiscountedByPercentage(percentage);
-        return super.view("/sales/all", sales);
+        return super.view("/sales/discounted", sales);
     }
 }
