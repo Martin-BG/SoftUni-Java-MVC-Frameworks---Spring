@@ -1,6 +1,6 @@
 package org.softuni.cardealer.controllers;
 
-import org.softuni.cardealer.domain.models.view.CustomerDetailsView;
+import org.softuni.cardealer.domain.models.view.CustomerDetailsViewModel;
 import org.softuni.cardealer.domain.models.view.CustomerViewModel;
 import org.softuni.cardealer.services.CarService;
 import org.softuni.cardealer.services.CustomerService;
@@ -49,7 +49,7 @@ public class CustomersController extends BaseController {
 
     @GetMapping("/{customerId}")
     public ModelAndView getByMake(@PathVariable Long customerId) {
-        final CustomerDetailsView model = this.customerService.getDetailsById(customerId);
+        final CustomerDetailsViewModel model = this.customerService.getDetailsById(customerId);
         return super.view("/customers/details", model);
     }
 }

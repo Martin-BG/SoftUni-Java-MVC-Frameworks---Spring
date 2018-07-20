@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDetailsView {
+public class CustomerDetailsViewModel {
 
     private String name;
 

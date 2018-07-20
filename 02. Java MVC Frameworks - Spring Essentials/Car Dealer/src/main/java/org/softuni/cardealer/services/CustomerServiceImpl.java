@@ -2,7 +2,7 @@ package org.softuni.cardealer.services;
 
 import org.modelmapper.ModelMapper;
 import org.softuni.cardealer.domain.entities.Customer;
-import org.softuni.cardealer.domain.models.view.CustomerDetailsView;
+import org.softuni.cardealer.domain.models.view.CustomerDetailsViewModel;
 import org.softuni.cardealer.domain.models.view.CustomerViewModel;
 import org.softuni.cardealer.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDetailsView getDetailsById(final Long customerId) {
+    public CustomerDetailsViewModel getDetailsById(final Long customerId) {
         final Customer customer = this.customerRepository
                 .findById(customerId)
                 .orElse(null);
@@ -45,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
             return null;
         }
 
-        final CustomerDetailsView model = this.modelMapper.map(customer, CustomerDetailsView.class);
+        final CustomerDetailsViewModel model = this.modelMapper.map(customer, CustomerDetailsViewModel.class);
 
         final List<Double> purchases = this.saleService.getPurchasesForCustomer(customerId);
 
