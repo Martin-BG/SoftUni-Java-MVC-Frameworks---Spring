@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.softuni.cardealer.domain.entities.Customer;
 import org.softuni.cardealer.domain.models.view.CustomerDetailsViewModel;
 import org.softuni.cardealer.domain.models.view.CustomerViewModel;
+import org.softuni.cardealer.domain.models.view.SaleSimpleViewModel;
 import org.softuni.cardealer.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,10 +48,13 @@ public class CustomerServiceImpl implements CustomerService {
 
         final CustomerDetailsViewModel model = this.modelMapper.map(customer, CustomerDetailsViewModel.class);
 
-        final List<Double> purchases = this.saleService.getPurchasesForCustomer(customerId);
+        final List<SaleSimpleViewModel> purchases = this.saleService.getPurchasesForCustomer(customerId);
+
 
         model.setCarsBought(purchases.size());
-        model.setMoneySpent(purchases.stream().reduce(0.0d, Double::sum) * customer.evaluatePriceModifier());
+        model.setMoneySpent(purchases.stream()
+                .map(p -> p.getCarBasePrice() * (1.0 - (p.getDiscount() + customer.discount())))
+                .reduce(0.0d, Double::sum));
 
         return model;
     }

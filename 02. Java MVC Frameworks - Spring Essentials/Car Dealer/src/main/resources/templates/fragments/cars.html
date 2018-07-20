@@ -1,5 +1,5 @@
 <table class="table mt-2 mb-2 center-block w-100 mx-auto"
-       th:fragment="cars (title)">
+       th:fragment="cars (title, cars)">
     <h2 class="header mt-2 mb-2 center-block text-center w-100 mx-auto" th:text="*{title}"/>
     <thead>
     <tr>
@@ -10,7 +10,7 @@
     </tr>
     </thead>
     <tbody>
-    <th:block th:each="car : ${viewModel}" th:object="${car}">
+    <th:block th:each="car : *{cars}" th:object="${car}">
         <tr>
             <td th:text="*{make}"/>
             <td th:text="*{model}"/>

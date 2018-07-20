@@ -1,11 +1,13 @@
 package org.softuni.cardealer.controllers;
 
+import org.softuni.cardealer.domain.models.view.SaleDetailsViewModel;
 import org.softuni.cardealer.domain.models.view.SaleViewModel;
 import org.softuni.cardealer.services.CarService;
 import org.softuni.cardealer.services.SaleService;
 import org.softuni.cardealer.utils.MessageWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,5 +30,11 @@ public class SalesController extends BaseController {
     public ModelAndView rootGet() {
         final List<SaleViewModel> sales = this.saleService.getAllSales();
         return super.view("/sales/all", sales);
+    }
+
+    @GetMapping("/{saleId}")
+    public ModelAndView getByMake(@PathVariable Long saleId) {
+        final SaleDetailsViewModel model = this.saleService.getSaleDetails(saleId);
+        return super.view("/sales/details", model);
     }
 }

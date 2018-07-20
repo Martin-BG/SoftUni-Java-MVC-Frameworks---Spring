@@ -1,5 +1,7 @@
-<table class="table mt-2 mb-2 center-block w-100 mx-auto">
-    <h2 class="header mt-2 mb-2 center-block text-center w-100 mx-auto" th:text="#{customers.all.title}"/>
+<table xmlns:th="http://www.w3.org/1999/xhtml"
+       class="table mt-2 mb-2 center-block w-100 mx-auto"
+       th:fragment="customers (title, customers)">
+    <h2 class="header mt-2 mb-2 center-block text-center w-100 mx-auto" th:text="*{title}"/>
     <thead>
     <tr>
         <th scope="col" th:text="#{customers.all.table-header.name}"/>
@@ -9,7 +11,7 @@
     </tr>
     </thead>
     <tbody>
-    <th:block th:each="customer : ${viewModel}" th:object="${customer}">
+    <th:block th:each="customer : *{customers}" th:object="${customer}">
         <tr>
             <td th:text="*{name}"/>
             <td th:text="${#temporals.format(customer.getBirthDate(), 'dd-MMM-yyyy')}"/>

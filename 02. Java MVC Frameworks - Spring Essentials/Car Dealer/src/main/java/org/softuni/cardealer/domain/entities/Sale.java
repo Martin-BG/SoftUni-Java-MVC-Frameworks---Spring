@@ -22,8 +22,4 @@ public class Sale {
     @ManyToOne
     @JoinColumn(name = "car_id", nullable = false)
     private Car car;
-
-    public Double evaluatePriceModifier() {
-        return 1.0 - this.discount;
-    }
 }

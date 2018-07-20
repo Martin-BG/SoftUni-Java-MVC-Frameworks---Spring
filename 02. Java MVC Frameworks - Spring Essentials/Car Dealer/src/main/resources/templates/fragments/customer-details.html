@@ -1,5 +1,7 @@
-<table class="table mt-2 mb-2 center-block w-100 mx-auto">
-    <h2 class="header mt-2 mb-2 center-block text-center w-100 mx-auto" th:text="#{customers.details.title}"/>
+<table xmlns:th="http://www.w3.org/1999/xhtml"
+       class="table mt-2 mb-2 center-block w-100 mx-auto"
+       th:fragment="customer (title, customer)">
+    <h2 class="header mt-2 mb-2 center-block text-center w-100 mx-auto" th:text="*{title}"/>
     <thead>
     <tr>
         <th scope="col" th:text="#{customers.details.table-header.name}"/>
@@ -8,12 +10,10 @@
     </tr>
     </thead>
     <tbody>
-    <th:block th:each="customer : ${viewModel}" th:object="${customer}">
         <tr>
-            <td th:text="*{name}"/>
-            <td th:text="*{carsBought}"/>
-            <td th:text="*{#numbers.formatDecimal(moneySpent, 1, 'DEFAULT', 2, 'DEFAULT')}"/>
+            <td th:text="*{customer.name}"/>
+            <td th:text="*{customer.carsBought}"/>
+            <td th:text="*{#numbers.formatDecimal(customer.moneySpent, 1, 'DEFAULT', 2, 'DEFAULT')}"/>
         </tr>
-    </th:block>
     </tbody>
 </table>

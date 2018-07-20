@@ -37,8 +37,4 @@ public class Customer {
     public Double discount() {
         return this.youngDriver ? PRICE_MODIFIER_FOR_YOUNG_DRIVERS : 0.0;
     }
-
-    public Double evaluatePriceModifier() {
-        return 1.0 - this.discount();
-    }
 }

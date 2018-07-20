@@ -2,6 +2,9 @@ package org.softuni.cardealer.services;
 
 import org.modelmapper.ModelMapper;
 import org.softuni.cardealer.domain.entities.Sale;
+import org.softuni.cardealer.domain.models.view.CustomerViewModel;
+import org.softuni.cardealer.domain.models.view.SaleDetailsViewModel;
+import org.softuni.cardealer.domain.models.view.SaleSimpleViewModel;
 import org.softuni.cardealer.domain.models.view.SaleViewModel;
 import org.softuni.cardealer.repositories.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +21,27 @@ public class SaleServiceImpl implements SaleService {
 
     private final SaleRepository saleRepository;
     private final ModelMapper modelMapper;
+    private final CarService carService;
 
     @Autowired
     public SaleServiceImpl(final SaleRepository saleRepository,
-                           final ModelMapper modelMapper) {
+                           final ModelMapper modelMapper,
+                           final CarService carService) {
         this.saleRepository = saleRepository;
         this.modelMapper = modelMapper;
+        this.carService = carService;
     }
 
     @Override
-    public List<Double> getPurchasesForCustomer(final Long customerId) {
+    public List<SaleSimpleViewModel> getPurchasesForCustomer(final Long customerId) {
         final List<Sale> purchases = this.saleRepository
                 .getPurchasesForCustomer(customerId);
         return purchases.stream()
-                .map(p -> p.getCar().calculateTotalPrice() * p.evaluatePriceModifier())
+                .map(p -> {
+                    SaleSimpleViewModel model = this.modelMapper.map(p, SaleSimpleViewModel.class);
+                    model.setCarBasePrice(p.getCar().calculateTotalPrice());
+                    return model;
+                })
                 .collect(Collectors.toUnmodifiableList());
     }
 
@@ -54,6 +64,27 @@ public class SaleServiceImpl implements SaleService {
         }
 
         return views;
+    }
+
+    @Override
+    public SaleDetailsViewModel getSaleDetails(final Long id) {
+        final Sale sale = this.saleRepository.findById(id).orElse(null);
+
+        if (sale == null) {
+            return null;
+        }
+
+        SaleDetailsViewModel model = this.modelMapper.map(sale, SaleDetailsViewModel.class);
+
+        model.setCarBasePrice(sale.getCar().calculateTotalPrice());
+        model.setCarFinalPrice(model.getCarBasePrice() * this.getPriceModifier(sale));
+        model.setTotalDiscount(this.getTotalDiscount(sale));
+        model.setYoungDriverDiscount(sale.getCustomer().discount() * 100.0);
+        model.setDiscount(sale.getDiscount() * 100.0);
+        model.setCustomerViewModel(this.modelMapper.map(sale.getCustomer(), CustomerViewModel.class));
+        model.setCarWithPartsViewModel(this.carService.getCarWithParts(sale.getCar().getId()));
+
+        return model;
     }
 
     private double getPriceModifier(final Sale sale) {
