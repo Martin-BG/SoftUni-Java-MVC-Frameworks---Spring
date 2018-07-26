@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en"
-      xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      use-expressions="true">
 <!--/*@thymesVar id="title" type="java.lang.String"*/-->
 <!--/*@thymesVar id="viewName" type="java.lang.String"*/-->
 <head>
@@ -41,6 +44,27 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/map}" th:text="#{nav-bar.map}"/>
                 </li>
+                <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNav">
+                    <ul class="navbar-nav functional-nav" sec:authorize="isAuthenticated()">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" th:href="@{/users/all}" th:text="#{nav-bar.all-users}"/>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav user-data-nav" sec:authorize="isAnonymous()">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" th:href="@{/users/login}" th:text="#{nav-bar.login}"/>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" th:href="@{/users/register}" th:text="#{nav-bar.register}"/>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav user-data-nav" sec:authorize="isAuthenticated()">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" th:href="@{/users/logout}" th:text="#{nav-bar.logout}"/>
+                        </li>
+                    </ul>
+                </div>
+
             </ul>
         </div>
     </nav>

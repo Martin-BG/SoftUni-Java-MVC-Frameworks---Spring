@@ -8,6 +8,8 @@ import com.softuni.residentevil.services.CapitalService;
 import com.softuni.residentevil.services.VirusService;
 import com.softuni.residentevil.utils.MessageWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +22,7 @@ import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/viruses")
-public final class VirusController extends BaseController {
+public class VirusController extends BaseController {
 
     private final VirusService virusService;
     private final CapitalService capitalsService;
@@ -36,6 +38,7 @@ public final class VirusController extends BaseController {
     }
 
     @GetMapping(value = {"", "/"})
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView rootGet() {
         final List<VirusIdNameMagnitudeAndDateViewModel> simpleView =
                 this.virusService.getSimpleView();
@@ -43,12 +46,14 @@ public final class VirusController extends BaseController {
     }
 
     @GetMapping("/add")
+    @Secured({"ROLE_MODERATOR"})
     public ModelAndView addGet() {
         final VirusAddEditBindingModel virusDto = this.loadDataToViewModel(new VirusAddEditBindingModel());
         return super.view("/viruses/add", virusDto);
     }
 
     @PostMapping("/add")
+    @Secured({"ROLE_MODERATOR"})
     public ModelAndView addPost(@Valid @ModelAttribute("viewModel") final VirusAddEditBindingModel virusAddEditBindingModel,
                                 final BindingResult bindingResult) {
 
@@ -66,6 +71,7 @@ public final class VirusController extends BaseController {
     }
 
     @GetMapping("/edit/{virusId}")
+    @Secured({"ROLE_MODERATOR"})
     public ModelAndView editGet(@PathVariable String virusId) {
         final VirusAddEditBindingModel virusAddEditBindingModel =
                 this.loadDataToViewModel(this.virusService.getById(virusId), virusId);
@@ -78,6 +84,7 @@ public final class VirusController extends BaseController {
     }
 
     @PostMapping("/edit/{virusId}")
+    @Secured({"ROLE_MODERATOR"})
     public ModelAndView editPost(@PathVariable String virusId,
                                  @Valid @ModelAttribute("viewModel") final VirusAddEditBindingModel virusAddEditBindingModel,
                                  final BindingResult bindingResult) {
@@ -95,6 +102,7 @@ public final class VirusController extends BaseController {
     }
 
     @GetMapping("/delete/{virusId}")
+    @Secured({"ROLE_MODERATOR"})
     public ModelAndView deleteGet(@PathVariable String virusId) {
         this.virusService.removeById(virusId);
         return super.redirect("/viruses");
