@@ -1,5 +1,6 @@
 package com.softuni.residentevil.services;
 
+import com.softuni.residentevil.config.constants.Constants;
 import com.softuni.residentevil.domain.enums.Authority;
 import com.softuni.residentevil.domain.etities.Role;
 import com.softuni.residentevil.domain.models.binding.RoleBindingModel;
@@ -19,7 +20,6 @@ import java.util.stream.Collectors;
 public class RoleServiceImpl extends BaseService implements RoleService {
 
     private final RoleRepository roleRepository;
-    private final ModelMapper modelMapper;
 
     @Autowired
     public RoleServiceImpl(final Validator validator,
@@ -27,7 +27,6 @@ public class RoleServiceImpl extends BaseService implements RoleService {
                            final RoleRepository roleRepository) {
         super(validator, modelMapper);
         this.roleRepository = roleRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -36,8 +35,17 @@ public class RoleServiceImpl extends BaseService implements RoleService {
     }
 
     @Override
+    protected <T> T mapDtoToEntity(final Object dto, final Class<T> entityClass) {
+        final T role = super.map(dto, entityClass);
+
+        ((Role) role).setAuthority(Constants.AUTHORITY_PREFIX + ((Role) role).getAuthority());
+
+        return role;
+    }
+
+    @Override
     public void initRoles() {
-        final List<String> authorities = getRoles();
+        final List<String> authorities = this.getRoles();
 
         Arrays.stream(Authority.values())
                 .map(Enum::name)

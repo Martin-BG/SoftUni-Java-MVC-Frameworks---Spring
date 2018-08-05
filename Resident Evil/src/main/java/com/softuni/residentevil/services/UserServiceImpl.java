@@ -1,5 +1,6 @@
 package com.softuni.residentevil.services;
 
+import com.softuni.residentevil.config.constants.Constants;
 import com.softuni.residentevil.domain.enums.Authority;
 import com.softuni.residentevil.domain.etities.Role;
 import com.softuni.residentevil.domain.etities.User;
@@ -27,7 +28,6 @@ public class UserServiceImpl extends BaseService implements UserService, UserDet
 
     private final UserRepository userRepository;
     private final RoleService roleService;
-    private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
@@ -38,7 +38,6 @@ public class UserServiceImpl extends BaseService implements UserService, UserDet
                            final BCryptPasswordEncoder bCryptPasswordEncoder) {
         super(validator, modelMapper);
         this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
         this.roleService = roleService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
@@ -53,12 +52,12 @@ public class UserServiceImpl extends BaseService implements UserService, UserDet
 
         if (this.userRepository.findAll().isEmpty()) {
             this.roleService.initRoles();
-            authorities.add(this.roleService.getByAuthority(Authority.ROOT.name()));
-            authorities.add(this.roleService.getByAuthority(Authority.ADMIN.name()));
-            authorities.add(this.roleService.getByAuthority(Authority.MODERATOR.name()));
-            authorities.add(this.roleService.getByAuthority(Authority.USER.name()));
+            authorities.add(this.roleService.getByAuthority(Authority.ROOT.toString()));
+            authorities.add(this.roleService.getByAuthority(Authority.ADMIN.toString()));
+            authorities.add(this.roleService.getByAuthority(Authority.MODERATOR.toString()));
+            authorities.add(this.roleService.getByAuthority(Authority.USER.toString()));
         } else {
-            authorities.add(this.roleService.getByAuthority(Authority.USER.name()));
+            authorities.add(this.roleService.getByAuthority(Authority.USER.toString()));
         }
 
         ((User) user).setAuthorities(authorities);
@@ -88,12 +87,49 @@ public class UserServiceImpl extends BaseService implements UserService, UserDet
                     Authority highestAuthority = user
                             .getAuthorities()
                             .stream()
-                            .map(role -> Authority.valueOf(role.getAuthority()))
+                            .map(role -> Authority.valueOf(role.getAuthority()
+                                    .substring(Constants.AUTHORITY_PREFIX.length())))
                             .max(Comparator.reverseOrder())
                             .orElse(null);
                     model.setHighestAuthority(highestAuthority);
                     return model;
                 })
+                .sorted(Comparator.comparing(UserViewModel::getHighestAuthority))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean setAuthority(final String id, final Authority authority) {
+        final User user = this.userRepository
+                .findById(id)
+                .orElse(null);
+
+        if (user == null || authority == Authority.ROOT || isRoot(user)) {
+            return false;
+        }
+
+        final Set<Role> authorities = new HashSet<>();
+
+        switch (authority) {
+        case ADMIN:
+            authorities.add(this.roleService.getByAuthority(Authority.ADMIN.toString()));
+        case MODERATOR:
+            authorities.add(this.roleService.getByAuthority(Authority.MODERATOR.toString()));
+        case USER:
+            authorities.add(this.roleService.getByAuthority(Authority.USER.toString()));
+        }
+
+        user.setAuthorities(authorities);
+
+        this.userRepository.save(user);
+
+        return true;
+    }
+
+    private boolean isRoot(User user) {
+        return user.getAuthorities()
+                .stream()
+                .map(Role::getAuthority)
+                .anyMatch(s -> Authority.ROOT.toString().equals(s));
     }
 }

@@ -4,7 +4,6 @@ import com.softuni.residentevil.domain.models.binding.UserRegisterBindingModel;
 import com.softuni.residentevil.domain.models.view.UserViewModel;
 import com.softuni.residentevil.services.UserService;
 import com.softuni.residentevil.utils.MessageWrapper;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -66,7 +65,6 @@ public class UserController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     public ModelAndView logout(final HttpSession session) {
         session.invalidate();
-
         return super.redirect("/");
     }
 }

@@ -32,20 +32,22 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/}" th:text="#{nav-bar.home}"/>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                        th:text="#{nav-bar.viruses}"/>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" th:href="@{/viruses}" th:text="#{nav-bar.viruses.show}"/>
-                        <a class="dropdown-item" th:href="@{/viruses/add}" th:text="#{nav-bar.viruses.add}"/>
+                        <a class="dropdown-item"
+                           th:href="@{/viruses/add}" th:text="#{nav-bar.viruses.add}"
+                           sec:authorize="hasRole('ROLE_MODERATOR')"/>
                     </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/map}" th:text="#{nav-bar.map}"/>
                 </li>
                 <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNav">
-                    <ul class="navbar-nav functional-nav" sec:authorize="isAuthenticated()">
+                    <ul class="navbar-nav functional-nav" sec:authorize="hasRole('ROLE_ADMIN')">
                         <li class="nav-item">
                             <a class="nav-link text-light" th:href="@{/users/all}" th:text="#{nav-bar.all-users}"/>
                         </li>

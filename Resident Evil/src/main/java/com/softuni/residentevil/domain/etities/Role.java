@@ -12,10 +12,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@Entity
-@Table(name = "roles")
 @EqualsAndHashCode(exclude = {"users"})
 @ToString(exclude = {"users"})
+@NoArgsConstructor
+@Entity
+@Table(name = "roles")
 public final class Role implements GrantedAuthority {
 
     @Id
@@ -23,7 +24,7 @@ public final class Role implements GrantedAuthority {
     @Column(nullable = false, unique = true, updatable = false, insertable = false)
     private Long id;
 
-    @Length(min = 1, max = 12)
+    @Length(min = 1, max = 20)
     @Column(nullable = false, unique = true)
     private String authority;
 

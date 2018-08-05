@@ -34,15 +34,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors().disable()
-                .csrf()
-//                    .disable()
-                .csrfTokenRepository(csrfTokenRepository())
+                .csrf().csrfTokenRepository(csrfTokenRepository())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/users/login", "/users/register", "/error/unauthorized", "/error/403").permitAll()
+                .antMatchers("/", "/users/login", "/users/register", "/error/**").permitAll()
                 .antMatchers("/css/**", "/js/**").permitAll()
-//                .antMatchers("/viruses/add", "/viruses/edit/**", "/viruses/delete/**").hasAuthority("ROLE_MODERATOR")
-//                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -54,12 +50,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll()
-
-/*                .formLogin()
-                .loginPage("/users/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .defaultSuccessUrl("/")*/
                 /*.and()
                 .rememberMe()
                 .rememberMeParameter("rememberMe")
@@ -67,7 +57,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .userDetailsService(this.userService)
                 .rememberMeCookieName("KLYOK")
                 .tokenValiditySeconds(1200)*/
-                .and().exceptionHandling().accessDeniedPage("/unauthorized")
-        ;
+                .and().exceptionHandling().accessDeniedPage("/error/unauthorized");
     }
 }

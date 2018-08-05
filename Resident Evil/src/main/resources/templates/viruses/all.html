@@ -1,4 +1,5 @@
-<table class="table mt-3 mb-5 center-block w-75 mx-auto" xmlns:th="http://www.w3.org/1999/xhtml">
+<table xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml"
+       class="table mt-3 mb-5 center-block w-75 mx-auto">
     <h2 class="header mt-3 mb-4 center-block w-75 mx-auto" th:text="#{viruses.all.title}"/>
     <thead>
     <tr>
@@ -6,8 +7,8 @@
         <th scope="col" th:text="#{viruses.all.table-header.name}"/>
         <th scope="col" th:text="#{viruses.all.table-header.magnitude}"/>
         <th scope="col" th:text="#{viruses.all.table-header.released-on}"/>
-        <th scope="col"></th>
-        <th scope="col"></th>
+        <th scope="col" sec:authorize="hasRole('ROLE_MODERATOR')"></th>
+        <th scope="col" sec:authorize="hasRole('ROLE_MODERATOR')"></th>
     </tr>
     </thead>
     <tbody>
@@ -18,13 +19,17 @@
             <td th:text="*{magnitude.getNormalizedName()}"/>
             <td th:text="${#temporals.format(virus.getReleasedOn(), 'dd-MMM-yyyy')}"/>
             <td>
-                <form th:method="get" th:action="@{/viruses/edit/{id}(id=*{id})}">
+                <form th:method="get"
+                      th:action="@{/viruses/edit/{id}(id=*{id})}"
+                      sec:authorize="hasRole('ROLE_MODERATOR')">
                     <button type="submit" class="btn btn-light btn-sm border-dark"
                             th:text="#{viruses.all.table-button.edit}"/>
                 </form>
             </td>
             <td>
-                <form th:method="get" th:action="@{/viruses/delete/{id}(id=*{id})}">
+                <form th:method="get"
+                      th:action="@{/viruses/delete/{id}(id=*{id})}"
+                      sec:authorize="hasRole('ROLE_MODERATOR')">
                     <button type="submit" class="btn btn-light btn-sm border-dark"
                             th:text="#{viruses.all.table-button.delete}"/>
                 </form>
