@@ -27,7 +27,7 @@ function handleRoute(e) {
     }
 }
 
-$(window).on('hashchange', handleRoute);
+$(window).on('hashchange load', handleRoute);
 
 let routeMap = {};
 
